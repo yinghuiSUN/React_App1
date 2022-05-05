@@ -4,6 +4,7 @@ import Home from "./Home";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import { Chip, Box } from "@mui/material";
+import Connection from "./Connection";
 
 export default function App() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shopping-list" element={<ShoppingList />} />
+          <Route path="/connection" element={<Connection />} />
         </Routes>
       </Box>
     </div>
