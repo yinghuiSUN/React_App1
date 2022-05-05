@@ -17,6 +17,7 @@ export default function App() {
       <h1 className="appTitle">App of Small Apps</h1>
       <p>Cours ReactJS S16</p>
       <p>diii</p>
+
       <Chip
         icon={<HomeIcon />}
         label="Home"
