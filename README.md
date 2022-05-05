@@ -1,2 +1,2 @@
-# React_App1
+# Small-react-apps
 Created with CodeSandbox
