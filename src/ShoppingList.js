@@ -31,13 +31,27 @@ const articles = [
 
 class ShoppingList extends React.Component {
   render() {
+    console.log(articles.length);
+
     return (
       <div>
         <h2>ShoppingList</h2>
-        <ul>
-          <li>{articles[0].name}</li>
-          <li>{articles[1].name}</li>
-        </ul>
+
+        <table>
+          <tr>
+            <th> category </th>
+            <th> price </th>
+            <th> name </th>
+          </tr>
+
+          {articles.map((items) => (
+            <tr Key={items.id}>
+              <td> {items.category} </td>
+              <td> {items.price} </td>
+              <td> {items.name} </td>
+            </tr>
+          ))}
+        </table>
       </div>
     );
   }
