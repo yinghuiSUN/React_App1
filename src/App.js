@@ -5,6 +5,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import { Chip, Box } from "@mui/material";
 import Connection from "./Connection";
+import DepartementList from "./DepartementList";
 
 export default function App() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/shopping-list" element={<ShoppingList />} />
           <Route path="/connection" element={<Connection />} />
+          <Route path="/departementList" element={<DepartementList />} />
         </Routes>
       </Box>
     </div>
