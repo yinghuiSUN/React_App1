@@ -11,7 +11,9 @@ class DeppartmentsList extends React.Component {
   }
 
   componentDidMount() {
-    fetch("https://geo.api.gouv.fr/departements")
+    fetch(
+      "https://api.themoviedb.org/3/discover/movie?api_key=b95a398c6c65c248eab3893cd6e36e2b&sort_by=popularity.desc"
+    )
       .then((data) => data.json())
       .then((dataDepartement) => {
         this.setState({
@@ -29,28 +31,11 @@ class DeppartmentsList extends React.Component {
   }
 
   render() {
-    const { data, inputSearcheValue } = this.state;
-    const departementList = data.filter(
-      (dep) => dep.nom.toLowerCase().indexOf(inputSearcheValue) !== -1
-    );
+    const { data } = this.state;
 
     return (
       <div className="App">
         <h1> liste des départements </h1>
-
-        <div className="recherche_departement">
-          <form className="filter_departement">
-            <label for="departement"> filtrer par nom </label>
-
-            <input
-              id="departement"
-              type="text"
-              name="departement"
-              value={inputSearcheValue}
-              onChange={this.handleChangeInput}
-            />
-          </form>
-        </div>
 
         <table className="liste_departement">
           <tr>
@@ -59,11 +44,10 @@ class DeppartmentsList extends React.Component {
             <th>Nom </th>
           </tr>
 
-          {departementList.map((X) => (
+          {data.map((X) => (
             <tr key={X.id}>
-              <td>{X.code}</td>
-              <td>{X.codeRegion}</td>
-              <td>{X.nom}</td>
+              <td>{X.page}</td>
+              <td>{X.result}</td>
             </tr>
           ))}
         </table>
