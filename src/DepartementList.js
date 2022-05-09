@@ -1,75 +1,104 @@
 import React from "react";
 
-class DeppartmentsList extends React.Component {
+
+class DepartmentsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputSearcheValue: "",
-      data: []
+      inputSearchValue: "",
+      click: false,
+      depValue: "",
+      items: [],
+      DataisLoaded: false
     };
     this.handleChangeInput = this.handleChangeInput.bind(this);
+    this.handleClickInput = this.handleClickInput.bind(this);
+  }
+
+  handleChangeInput(e) {
+    const { value } = e.target;
+    this.setState({
+      inputSearchValue: value
+    });
+  }
+  handleClickInput(dep) {
+    this.setState({
+      selectDep: dep,
+      click: true
+    });
   }
 
   componentDidMount() {
     fetch("https://geo.api.gouv.fr/departements")
       .then((data) => data.json())
-      .then((dataDepartement) => {
+      .then((data) => {
         this.setState({
-          data: dataDepartement
+          items: data,
+          DataisLoaded: true
         });
       });
   }
 
-  //fonction handleChangeInput
-  handleChangeInput(e) {
-    const { value } = e.target;
-    this.setState({
-      inputSearcheValue: value
-    });
-  }
-
   render() {
-    const { data, inputSearcheValue } = this.state;
-    const departementList = data.filter(
-      (dep) => dep.nom.toLowerCase().indexOf(inputSearcheValue) !== -1
+    const {
+      items,
+      DataisLoaded,
+      inputSearchValue,
+      depValue,
+      click
+    } = this.state;
+    
+    const departmentList = items.filter(
+      (item) => item.nom.toLowerCase().indexOf(inputSearchValue) !== -1
     );
 
     return (
       <div className="App">
-        <h1> liste des départements </h1>
-
-        <div className="recherche_departement">
-          <form className="filter_departement">
-            <label for="departement"> filtrer par nom </label>
-
+        {!click && DataisLoaded && (
+          <>
+            <h1>La liste des départements français</h1>
+            <label for="nom">Filtrer par nom: </label>
             <input
-              id="departement"
+              id="nom"
               type="text"
-              name="departement"
-              value={inputSearcheValue}
-              onChange={this.handleChangeInput}
+              name="nom"
+              value={inputSearchValue}
+              onChange={this.handleChangeInput} //event synthetic React
             />
-          </form>
-        </div>
 
-        <table className="liste_departement">
-          <tr>
-            <th>Code</th>
-            <th>Code Region </th>
-            <th>Nom </th>
-          </tr>
+            <table>
+              <tr className="tab1">
+                <th>Code</th>
+                <th>Code de la région</th>
+                <th>Nom de la région</th>
+              </tr>
+              {departmentList.map((item) => (
+                <tr className="tab2">
+                  <th>{item.code}</th>
+                  <th> {item.codeRegion}</th>
+                  <th
+                    value={depValue}
+                    onClick={() => this.handleClickInput(item)}
+                  >
+                    {" "}
+                    {/**La valeur passée */}
+                    {item.nom}
+                  </th>
+                </tr>
+              ))}
+            </table>
+          </>
+        )}
 
-          {departementList.map((X) => (
-            <tr key={X.id}>
-              <td>{X.code}</td>
-              <td>{X.codeRegion}</td>
-              <td>{X.nom}</td>
-            </tr>
-          ))}
-        </table>
+        {click && DataisLoaded && (
+          <>
+            <h1>Nom : {this.state.selectDep.nom}</h1>
+            <p>Code de la région: {this.state.selectDep.code}</p>
+            <p>Code: {this.state.selectDep.code}</p>
+          </>
+        )}
       </div>
     );
   }
 }
-
-export default DeppartmentsList;
+export default DepartmentsList;

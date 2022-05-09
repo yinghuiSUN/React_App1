@@ -1,11 +1,16 @@
 import React from "react";
 
+
+
 class MoviesDatabase extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      database: {}
+      database: {},
+      click: false,
+      filmChoisi: ""
     };
+    this.affichageInfo = this.affichageInfo.bind(this);
   }
 
   componentDidMount() {
@@ -19,26 +24,55 @@ class MoviesDatabase extends React.Component {
         });
       });
   }
+  affichageInfo(film) {
+    this.setState({
+      click: true,
+      filmChoisi: film
+    });
+  }
 
   render() {
-    const { database } = this.state;
-
+    const { database, click, filmChoisi } = this.state;
+  
     return (
       <div className="App">
-        <h1> liste des movies </h1>
-
-        <table className="moviesDatabase">
-          <tr>
-            <th>A</th>
-          </tr>
-
-          {database.results &&
-            database.results.map((items) => (
-              <tr key={items.id}>
-                <td>{items.title}</td>
+        {!click && (
+          <>
+            <h1> liste des film </h1>
+            <table className="moviesDatabase">
+              <tr>
+                <th>la date de sortir</th>
+                <th>title de film</th>
               </tr>
-            ))}
-        </table>
+
+              {database.results &&
+                database.results.map((items) => (
+                  <tr key={items.id}>
+                    <td>{items.release_date}</td>
+                    <td
+                      value={filmChoisi}
+                      onClick={() => this.affichageInfo(items)}
+                    >
+                      {items.title}
+                    </td>
+                  </tr>
+                ))}
+            </table>
+          </>
+        )}
+        {click && (
+          <>
+            <p>title: {this.state.filmChoisi.title}</p> 
+            <p>id: {this.state.filmChoisi.id}</p>
+            <p>original language: {this.state.filmChoisi.original_language}</p>
+            <p>overview: {this.state.filmChoisi.overview}</p>
+            <p>vote average: {this.state.filmChoisi.vote_average}</p>
+            <p>popularity: {this.state.filmChoisi.popularity}</p>
+            
+            <img src={"https://image.tmdb.org/t/p/w500"+this.state.filmChoisi.poster_path}></img>
+                                 
+          </>
+        )}
       </div>
     );
   }
