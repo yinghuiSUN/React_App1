@@ -26,13 +26,12 @@ const articles = [
   { category: "Food", price: "29.99", name: "Basketball" },
   { category: "Electronics", price: "99.99", name: "iPod Touch" },
   { category: "Electronics", price: "399.99", name: "iPhone 5" },
-  { category: "Electronics", price: "199.99", name: "Nexus 7" }
+  { category: "Electronics", price: "199.99", name: "Nexus 7" },
+  { category: "Vetement", price: "39.40", name: "pantalon noir" }
 ];
 
 class ShoppingList extends React.Component {
   render() {
-    console.log(articles.length);
-
     return (
       <div>
         <h2>ShoppingList</h2>
