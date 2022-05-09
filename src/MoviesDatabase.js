@@ -1,13 +1,11 @@
 import React from "react";
 
-class DeppartmentsList extends React.Component {
+class MoviesDatabase extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputSearcheValue: "",
-      data: []
+      database: {}
     };
-    this.handleChangeInput = this.handleChangeInput.bind(this);
   }
 
   componentDidMount() {
@@ -15,45 +13,35 @@ class DeppartmentsList extends React.Component {
       "https://api.themoviedb.org/3/discover/movie?api_key=b95a398c6c65c248eab3893cd6e36e2b&sort_by=popularity.desc"
     )
       .then((data) => data.json())
-      .then((dataDepartement) => {
+      .then((moviesDatabase) => {
         this.setState({
-          data: dataDepartement
+          database: moviesDatabase
         });
       });
   }
 
-  //fonction handleChangeInput
-  handleChangeInput(e) {
-    const { value } = e.target;
-    this.setState({
-      inputSearcheValue: value
-    });
-  }
-
   render() {
-    const { data } = this.state;
+    const { database } = this.state;
 
     return (
       <div className="App">
-        <h1> liste des départements </h1>
+        <h1> liste des movies </h1>
 
-        <table className="liste_departement">
+        <table className="moviesDatabase">
           <tr>
-            <th>Code</th>
-            <th>Code Region </th>
-            <th>Nom </th>
+            <th>A</th>
           </tr>
 
-          {data.map((X) => (
-            <tr key={X.id}>
-              <td>{X.page}</td>
-              <td>{X.result}</td>
-            </tr>
-          ))}
+          {database.results &&
+            database.results.map((items) => (
+              <tr key={items.id}>
+                <td>{items.title}</td>
+              </tr>
+            ))}
         </table>
       </div>
     );
   }
 }
 
-export default DeppartmentsList;
+export default MoviesDatabase;
